@@ -1,0 +1,20 @@
+<h1>{{changesetTree.changeset.name}}</h1>
+<h2>{{changesetTree.changeset.name}}'s Pets</h2>
+{{#if table}}
+    {{#light-table table height='200px' as |t|}}
+        {{t.head}}
+        {{#t.body
+            canSelect=false
+            onScrolledToBottom=(action 'onScrolledToBottom')
+        as |body|}}
+            {{#if isLoading}}
+                {{#body.loader}}
+                    {{table-loader}}
+                {{/body.loader}}
+            {{/if}}
+        {{/t.body}}
+    {{/light-table}}
+{{/if}}
+
+<button onClick={{action 'refresh'}}>Refresh</button>
+{{yield}}

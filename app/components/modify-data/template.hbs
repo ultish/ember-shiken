@@ -1,0 +1,13 @@
+{{#each pets as |pet|}}
+    <div>{{pet.name}}</div>
+    {{#power-select
+        options=bodyShapes
+        onchange=(action 'selection' pet)
+        selected=pet.shape
+    as |shape|}}
+        {{shape.name}}
+    {{/power-select}}
+{{/each}}
+
+
+{{yield}}
