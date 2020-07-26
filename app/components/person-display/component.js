@@ -49,10 +49,12 @@ export default Component.extend({
       {
         label: "Body Shape Changeset",
         valuePath: "changeset.shape.name",
+        cellType: "custom-cell",
       },
       {
         label: "Body Shape Model",
         valuePath: "model.shape.name",
+        cellType: "custom-cell",
       },
     ];
   }),
