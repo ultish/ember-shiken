@@ -18,7 +18,6 @@ export default Controller.extend({
 
     changesetTreePerson.set("pets", petChangesetTrees);
 
-    console.log(changesetTreePerson);
     this.set("changesetTree", changesetTreePerson);
   },
 });
