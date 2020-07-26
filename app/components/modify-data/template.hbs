@@ -1,3 +1,5 @@
+<h1>Modify</h1>
+<h2>Pets</h2>
 {{#each pets as |pet|}}
     <div>{{pet.name}}</div>
     {{#power-select
@@ -9,5 +11,11 @@
     {{/power-select}}
 {{/each}}
 
-
+<h2>People</h2>
+{{#each people as |person|}}
+    <div>
+        {{person.name}} <br/>
+        {{input value=person.name}}
+    </div>
+{{/each}}
 {{yield}}

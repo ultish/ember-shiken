@@ -47,7 +47,7 @@ export default Component.extend({
         valuePath: "changeset.age",
       },
       {
-        label: "Body Shape",
+        label: "Body Shape Changeset",
         valuePath: "changeset.shape.name",
       },
       {

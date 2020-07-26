@@ -15,12 +15,21 @@ export default Component.extend({
 
     this.set("bodyShapes", bodyShapes);
     this.set("pets", pets);
+
+    const people = await store.findAll("person");
+    this.set("people", people);
   },
 
   actions: {
     selection: function (pet, selected) {
       pet.set("shape", selected);
       pet.save();
+    },
+    updatePerson: function (person, e) {
+      debugger;
+      person;
+      person.set("name", name);
+      person.save();
     },
   },
 });
