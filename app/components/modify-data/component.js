@@ -25,11 +25,5 @@ export default Component.extend({
       pet.set("shape", selected);
       pet.save();
     },
-    updatePerson: function (person, e) {
-      debugger;
-      person;
-      person.set("name", name);
-      person.save();
-    },
   },
 });
