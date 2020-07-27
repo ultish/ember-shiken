@@ -1,19 +1,20 @@
-<h1>{{changesetTree.changeset.name}}(changeset) vs {{changesetTree.model.name}}(model) vs {{changesetTree.changeset._content.name}}(changeset _content)</h1>
+<h1>{{changesetTree.changeset.name}}(changeset) vs {{changesetTree.model.name}}(model)
+    vs {{changesetTree.changeset._content.name}}(changeset _content)</h1>
 <h2>{{changesetTree.changeset.name}}'s Pets</h2>
 {{#if table}}
-    {{#light-table table height='auto' as |t|}}
-        {{t.head}}
-        {{#t.body
-            canSelect=false
-            onScrolledToBottom=(action 'onScrolledToBottom')
-        as |body|}}
+    <LightTable @table={{table}} @height='auto' as |t|>
+        <t.head/>
+        <t.body
+            @canSelect={{false}}
+            @onScrolledToBottom={{action "onScrolledToBottom"}}
+            as |body|>
             {{#if isLoading}}
-                {{#body.loader}}
+                <body.loader>
                     {{table-loader}}
-                {{/body.loader}}
+                </body.loader>
             {{/if}}
-        {{/t.body}}
-    {{/light-table}}
+        </t.body>
+    </LightTable>
 {{/if}}
 
 <button onClick={{action 'refresh'}}>Refresh</button>

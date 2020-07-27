@@ -1,0 +1,1 @@
+2020-07-27T05:57:11.883Z [warn] WARNING: {{light-table}} was not converted as it has positional parameters which can't be automatically converted. Source: app/components/person-display/template.hbs

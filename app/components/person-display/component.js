@@ -1,7 +1,7 @@
 import Component from "@ember/component";
 import Table from "ember-light-table";
-import { computed } from "@ember/object";
-import { A } from "@ember/array";
+import {computed} from "@ember/object";
+import {A} from "@ember/array";
 
 export default Component.extend({
   canLoadMore: true,
@@ -11,14 +11,22 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    const table = new Table(this.get("columns"), this.get("data"), {
-      enableSync: true,
+
+
+    const table = Table.create({
+      columns: this.get("columns"),
+      rows: this.get("data"),
+      enableSync: true
     });
+
     this.set("table", table);
+
+    this.loadData();
   },
 
   actions: {
     async onScrolledToBottom() {
+      console.log('scrolled to bottom');
       this.loadData();
     },
     refresh() {

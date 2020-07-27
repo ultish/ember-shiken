@@ -2,20 +2,20 @@
 <h2>Pets</h2>
 {{#each pets as |pet|}}
     <div>{{pet.name}}</div>
-    {{#power-select
-        options=bodyShapes
-        onchange=(action 'selection' pet)
-        selected=pet.shape
-    as |shape|}}
+    <PowerSelect
+        @options={{bodyShapes}}
+        @onChange={{action "selection" pet}}
+        @selected={{pet.shape}}
+        as |shape|>
         {{shape.name}}
-    {{/power-select}}
+    </PowerSelect>
 {{/each}}
 
 <h2>People</h2>
 {{#each people as |person|}}
     <div>
         {{person.name}} <br/>
-        {{input value=person.name}}
+        <Input @value={{person.name}} />
     </div>
 {{/each}}
 {{yield}}

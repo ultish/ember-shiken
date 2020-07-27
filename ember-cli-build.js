@@ -7,7 +7,7 @@ module.exports = function (defaults) {
     // Add options here
     babel: {
       sourceMaps: "inline",
-      includePolyfill: true,
+      // includePolyfill: true,
     },
   });
 
