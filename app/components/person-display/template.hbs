@@ -14,8 +14,30 @@
                 </body.loader>
             {{/if}}
         </t.body>
+        <t.foot fixed=false as |columns|>
+            <tr>
+                <td class="align-center" colspan={{columns.length}}>
+                    <ul class="pagination pagination-sm">
+                        <li class={{if (eq currentPage 1) 'disabled'}}>
+                            <a {{action 'setPage' (dec currentPage)}} href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {{#each (range 1 totalPages true) as |p|}}
+                            <li class={{if (eq p currentPage) 'active'}}>
+                                <a {{action 'setPage' p}} href="#">{{p}}</a>
+                            </li>
+                        {{/each}}
+                        <li class={{if (eq currentPage totalPages) 'disabled'}}>
+                            <a {{action 'setPage' (inc currentPage)}} href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </t.foot>
     </LightTable>
 {{/if}}
-
 <button onClick={{action 'refresh'}}>Refresh</button>
 {{yield}}
