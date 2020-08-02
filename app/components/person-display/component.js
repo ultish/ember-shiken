@@ -27,6 +27,8 @@ export default Component.extend({
     const table = Table.create({
       columns: this.get("columns"),
       rows: this.get("data"),
+      /* using the tableData directly it's not updating data when page number changes 🤔 */
+      // rows: this.get("tableData"),
       enableSync: true,
     });
 
@@ -35,8 +37,12 @@ export default Component.extend({
     // this.loadData();
   },
 
+  /**
+   * Without using this observer, ember doesn't think anyone is using tableData
+   * as a dependency after the initial request. So when you change page numbers
+   * it's not recalculating the computed property
+   */
   tableDataObserver: observer("tableData.[]", function () {
-    debugger;
     this.set("data", this.get("tableData"));
   }).on("init"),
 
