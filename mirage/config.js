@@ -6,4 +6,5 @@ export default function () {
   this.get("/bodyshapes");
 
   this.patch("/pets/:id");
+  this.post("/pets");
 }

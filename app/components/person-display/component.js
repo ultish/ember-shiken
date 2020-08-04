@@ -58,7 +58,6 @@ export default Component.extend({
     setPage(page) {
       let totalPages = this.get("totalPages");
       let currPage = this.get("currentPage");
-      debugger;
 
       if (page < 1 || page > totalPages || page === currPage) {
         return;
@@ -115,7 +114,6 @@ export default Component.extend({
 
       const startIndex = itemsPerPage * currentIndex;
       const endIndex = startIndex + itemsPerPage;
-      debugger;
 
       if (pets && pets.length) {
         return pets.toArray().slice(startIndex, endIndex);
