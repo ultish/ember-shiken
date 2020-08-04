@@ -105,6 +105,8 @@ export default class PersonDisplayOctaneComponent extends Component {
     return result;
   }
 
+  // computed for caching
+  @computed
   get columns() {
     return [
       {
