@@ -11,7 +11,9 @@ export default class ChangesetTreeOctane {
   /**
    * If we add this tracked property here,
    * dependencies of this won't need to use
-   * computed
+   * computed.
+   *
+   * TODO: Can we dynamically add properties for tracking?
    */
   // @tracked
   // pets;
