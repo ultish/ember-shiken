@@ -1,6 +1,7 @@
 <h1>{{changesetTree.changeset.name}}(changeset) vs {{changesetTree.model.name}}(model)
     vs {{changesetTree.changeset._content.name}}(changeset _content)</h1>
 <h2>{{changesetTree.changeset.name}}'s Pets</h2>
+{{!--{{tableData}}--}}
 {{#if table}}
     <LightTable @table={{table}} @height='auto' as |t|>
         <t.head/>
