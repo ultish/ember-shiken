@@ -23,29 +23,20 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    const table = new Table(this.get("columns"), this.get("data"), {
+    const table = new Table(this.get("columns"), this.get("tableData"), {
       enableSync: true,
     });
     this.set("table", table);
   },
 
-  tableDataObserver: observer("tableData.[]", function () {
-    debugger;
-    this.set("data", this.get("tableData"));
-  }).on("init"),
-
   actions: {
-    async onScrolledToBottom() {
-      this.loadData();
-    },
+    async onScrolledToBottom() {},
     refresh() {
-      this.set("canLoadMore", true);
-      this.loadData();
+      this.notifyPropertyChange("tableData");
     },
     setPage(page) {
       let totalPages = this.get("totalPages");
       let currPage = this.get("currentPage");
-      debugger;
 
       if (page < 1 || page > totalPages || page === currPage) {
         return;
@@ -53,21 +44,9 @@ export default Component.extend({
 
       this.set("currentPage", page);
 
-      this.notifyPropertyChange("tableData");
-      // this.get("data").clear();
-      // this.get('fetchRecords').perform();
+      // without this getter Ember doesn't think anyone is using the CP
+      this.get("tableData");
     },
-  },
-
-  async loadData() {
-    console.log("LOAD DATA");
-    if (this.get("canLoadMore")) {
-      // const petChangesetTrees = await this.get("changesetTree").get("pets");
-      // this.get("data").clear();
-      // this.get("data").pushObjects(petChangesetTrees.toArray());
-      this.set("canLoadMore", false);
-      this.notifyPropertyChange("tableData");
-    }
   },
 
   currentPage: 1,
@@ -90,25 +69,24 @@ export default Component.extend({
     "changesetTree.pets.[]",
     "currentPage",
     "itemsPerPage",
-    "totalPages",
     function () {
       const pets = this.get("changesetTree.pets");
       const currentPage = this.get("currentPage");
       const itemsPerPage = this.get("itemsPerPage");
 
-      const totalPages = this.get("totalPages");
-
       const currentIndex = currentPage - 1;
 
       const startIndex = itemsPerPage * currentIndex;
       const endIndex = startIndex + itemsPerPage;
-      debugger;
+
+      const data = this.get("data");
+      data.clear();
 
       if (pets && pets.length) {
-        return pets.toArray().slice(startIndex, endIndex);
-      } else {
-        return [];
+        data.pushObjects(pets.toArray().slice(startIndex, endIndex));
       }
+
+      return data;
     }
   ),
 
