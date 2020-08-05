@@ -41,5 +41,9 @@ export default Component.extend({
         owner: person,
       });
     },
+
+    removePet: function (pet) {
+      pet.destroyRecord();
+    },
   },
 });

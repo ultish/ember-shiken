@@ -7,4 +7,5 @@ export default function () {
 
   this.patch("/pets/:id");
   this.post("/pets");
+  this.delete("/pets/:id");
 }

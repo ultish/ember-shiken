@@ -64,7 +64,7 @@ export default class PersonDisplayOctaneComponent extends Component {
    * adding computed here for caching
    * @returns {*}
    */
-  @computed("currentPage", "args.changesetTree.pets.[]")
+  @computed("currentPage", "args.changesetTree.pets.@each.id")
   get tableData() {
     const pets = this.args.changesetTree.pets;
     const currentPage = this.currentPage;
@@ -94,7 +94,7 @@ export default class PersonDisplayOctaneComponent extends Component {
 
   // the changesetTreeOctane.pets is not a @tracked property,
   // so add computed here
-  @computed("args.changesetTree.pets.[]")
+  @computed("args.changesetTree.pets.@each.id")
   get totalPages() {
     const pets = this.args.changesetTree.pets;
     const itemsPerPage = this.itemsPerPage;

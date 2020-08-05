@@ -1,16 +1,22 @@
 import Controller from "@ember/controller";
 import ChangesetTree from "ember-shiken/framework/changeset-tree";
 import ChangesetTreeOctane from "ember-shiken/framework/changeset-tree-octane";
-import { observer } from "@ember/object";
 import { A } from "@ember/array";
 
 export default Controller.extend({
   async onRouteActivate() {
     const person = this.get("model");
-    const pets = person.get("pets");
 
     const changesetTreePerson = ChangesetTree.create({
       model: person,
+    });
+
+    const petsArray = person.get("pets");
+
+    // add an observer to the array of pets
+    petsArray.addArrayObserver(this, {
+      willChange: "syncArrayWillChange",
+      didChange: "syncArrayDidChange",
     });
 
     changesetTreePerson.set("pets", A());
@@ -18,53 +24,54 @@ export default Controller.extend({
     this.set("changesetTree", changesetTreePerson);
 
     const cstoPerson = new ChangesetTreeOctane(person);
-    // const petCstos = pets.map((pet) => {
-    //   return new ChangesetTreeOctane(pet);
-    // });
-    // cstoPerson.pets = petCstos;
     cstoPerson.pets = A();
 
     this.set("changesetTreeOctane", cstoPerson);
+
+    this.updatePetsChangeset(0, 0, petsArray);
   },
 
-  test: observer(
-    "model.pets.length",
-    "changesetTree",
-    "changesetTreeOctane",
-    function () {
-      const person = this.get("model");
-      const changesetTree = this.get("changesetTree");
-      const changesetTreeOctane = this.get("changesetTreeOctane");
+  /**
+   * unused, but it should remove the array observer
+   */
+  deactivate() {
+    this.get("model.pets").removeArrayObserver(this, {
+      willChange: "syncArrayWillChange",
+      didChange: "syncArrayDidChange",
+    });
+  },
 
-      if (person && changesetTree) {
-        const pets = person.get("pets");
-        pets
-          .filter((pet) => {
-            return !changesetTree.get("pets").findBy("model", pet);
-          })
-          .forEach((petWithoutChangesetTree) => {
-            console.log("pet without CST", petWithoutChangesetTree.get("name"));
-            const cst = ChangesetTree.create({
-              model: petWithoutChangesetTree,
-            });
-            changesetTree.get("pets").pushObject(cst);
-          });
-      }
-      if (person && changesetTreeOctane) {
-        const pets = person.get("pets");
-        pets
-          .filter((pet) => {
-            return !changesetTreeOctane.pets.findBy("model", pet);
-          })
-          .forEach((petWithoutChangesetTree) => {
-            console.log(
-              "pet without CST octane",
-              petWithoutChangesetTree.get("name")
-            );
-            const cst = new ChangesetTreeOctane(petWithoutChangesetTree);
-            changesetTreeOctane.pets.pushObject(cst);
-          });
-      }
+  syncArrayWillChange() {
+    // not doing anything
+  },
+  syncArrayDidChange(syncArray, start, removeCount, addCount) {
+    let objectsToAdd = [];
+    if (addCount > 0) {
+      objectsToAdd = syncArray.slice(start, start + addCount);
     }
-  ).on("init"),
+
+    this.updatePetsChangeset(start, removeCount, objectsToAdd);
+  },
+
+  updatePetsChangeset(start, removeCount, objectsToAdd) {
+    const changesetTree = this.get("changesetTree");
+    const changesetTreeOctane = this.get("changesetTreeOctane");
+
+    const newPetChangesetTrees = objectsToAdd.map((pet) =>
+      ChangesetTree.create({
+        model: pet,
+      })
+    );
+
+    const newPetChangesetTreeOctanes = objectsToAdd.map(
+      (pet) => new ChangesetTreeOctane(pet)
+    );
+
+    changesetTree.get("pets").replace(start, removeCount, newPetChangesetTrees);
+    changesetTreeOctane.pets.replace(
+      start,
+      removeCount,
+      newPetChangesetTreeOctanes
+    );
+  },
 });

@@ -10,6 +10,7 @@
             as |shape|>
             {{shape.name}}
         </PowerSelect>
+        <button type="button" {{on 'click'  (action 'removePet' pet)}}>Remove Pet</button>
     </div>
 {{/each}}
 <button type="button" {{on 'click' (action 'addPet')}}>Add Pet</button>
