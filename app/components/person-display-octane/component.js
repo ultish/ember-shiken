@@ -3,7 +3,6 @@ import { tracked } from "@glimmer/tracking";
 import Table from "ember-light-table";
 import { action, computed } from "@ember/object";
 import { A } from "@ember/array";
-import { dependentKeyCompat } from "@ember/object/compat";
 
 export default class PersonDisplayOctaneComponent extends Component {
   @tracked
@@ -47,7 +46,6 @@ export default class PersonDisplayOctaneComponent extends Component {
     if (page < 1 || page > totalPages || page == currentPage) {
       return;
     }
-    console.log("set page", page);
     this.currentPage = page;
 
     // force the getter...seems odd we have to do this.
@@ -68,7 +66,6 @@ export default class PersonDisplayOctaneComponent extends Component {
    */
   @computed("currentPage", "args.changesetTree.pets.[]")
   get tableData() {
-    console.log("tableData fetch", this.currentPage);
     const pets = this.args.changesetTree.pets;
     const currentPage = this.currentPage;
     const itemsPerPage = this.itemsPerPage;
