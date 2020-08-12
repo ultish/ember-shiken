@@ -1,0 +1,15 @@
+2020-07-27T05:57:11.883Z [warn] WARNING: {{light-table}} was not converted as it has positional parameters which can't be automatically converted. Source: app/components/person-display/template.hbs
+2020-08-11T07:04:45.966Z [info] [app/application/controller.js]: SUCCESS
+2020-08-11T07:04:46.055Z [info] [app/application/route.js]: SUCCESS
+2020-08-11T07:06:09.103Z [warn] [app/components/person-display-octane/component.js]: SKIPPED Could not find runtime data NO_RUNTIME_DATA
+2020-08-11T07:06:09.497Z [info] [app/components/light-table/cells/custom-cell/component.js]: SUCCESS
+2020-08-11T07:06:09.573Z [info] [app/components/modify-data/component.js]: SUCCESS
+2020-08-11T07:06:09.665Z [warn] [app/components/person-display/component.js]: FAILURE 
+Validation errors: 
+	[_data]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+2020-08-12T04:24:40.393Z [warn] [app/components/person-display/component.js]: FAILURE 
+Validation errors: 
+	[_data]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+2020-08-12T04:33:00.264Z [warn] [./app/components/person-display/component.js]: FAILURE 
+Validation errors: 
+	[_data]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
