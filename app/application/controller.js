@@ -1,9 +1,10 @@
+// import classic from 'ember-classic-decorator';
 import Controller from "@ember/controller";
 import ChangesetTree from "ember-shiken/framework/changeset-tree";
 import ChangesetTreeOctane from "ember-shiken/framework/changeset-tree-octane";
 import { A } from "@ember/array";
 
-export default Controller.extend({
+export default class ApplicationController extends Controller {
   async onRouteActivate() {
     const person = this.get("model");
 
@@ -29,7 +30,7 @@ export default Controller.extend({
     this.set("changesetTreeOctane", cstoPerson);
 
     this.updatePetsChangeset(0, 0, petsArray);
-  },
+  }
 
   /**
    * unused, but it should remove the array observer
@@ -39,11 +40,12 @@ export default Controller.extend({
       willChange: "syncArrayWillChange",
       didChange: "syncArrayDidChange",
     });
-  },
+  }
 
   syncArrayWillChange() {
     // not doing anything
-  },
+  }
+
   syncArrayDidChange(syncArray, start, removeCount, addCount) {
     let objectsToAdd = [];
     if (addCount > 0) {
@@ -51,7 +53,7 @@ export default Controller.extend({
     }
 
     this.updatePetsChangeset(start, removeCount, objectsToAdd);
-  },
+  }
 
   updatePetsChangeset(start, removeCount, objectsToAdd) {
     const changesetTree = this.get("changesetTree");
@@ -73,5 +75,5 @@ export default Controller.extend({
       removeCount,
       newPetChangesetTreeOctanes
     );
-  },
-});
+  }
+}

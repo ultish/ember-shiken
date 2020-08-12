@@ -1,12 +1,14 @@
-import Component from "@ember/component";
 import { inject as service } from "@ember/service";
+import Component from "@ember/component";
+import { action } from "@ember/object";
 
-export default Component.extend({
-  store: service(),
+export default class ModifyData extends Component {
+  @service
+  store;
 
   didInsertElement() {
     this.loadData();
-  },
+  }
 
   async loadData() {
     const store = this.get("store");
@@ -21,29 +23,30 @@ export default Component.extend({
 
     const shapes = await this.store.findAll("bodyshape");
     this.set("shapes", shapes);
-  },
+  }
 
-  actions: {
-    selection: function (pet, selected) {
-      pet.set("shape", selected);
-      pet.save();
-    },
+  @action
+  selection(pet, selected) {
+    pet.set("shape", selected);
+    pet.save();
+  }
 
-    addPet: function () {
-      const person = this.people.toArray()[0];
+  @action
+  addPet() {
+    const person = this.people.toArray()[0];
 
-      const index = Math.floor(Math.random() * this.shapes.length);
-      const shape = this.shapes.toArray()[index];
-      this.store.createRecord("pet", {
-        name: `pet ${Math.random() * 100}`,
-        age: Math.random() * 100,
-        shape: shape,
-        owner: person,
-      });
-    },
+    const index = Math.floor(Math.random() * this.shapes.length);
+    const shape = this.shapes.toArray()[index];
+    this.store.createRecord("pet", {
+      name: `pet ${Math.random() * 100}`,
+      age: Math.random() * 100,
+      shape: shape,
+      owner: person,
+    });
+  }
 
-    removePet: function (pet) {
-      pet.destroyRecord();
-    },
-  },
-});
+  @action
+  removePet(pet) {
+    pet.destroyRecord();
+  }
+}

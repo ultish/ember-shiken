@@ -1,8 +1,11 @@
+import classic from 'ember-classic-decorator';
+import { computed } from '@ember/object';
 import Cell from "ember-light-table/components/cells/base";
-import { computed } from "@ember/object";
 
-export default Cell.extend({
-  icon: computed("value", function () {
+@classic
+export default class CustomCell extends Cell {
+  @computed("value")
+  get icon() {
     const value = this.get("value");
     switch (value) {
       case "Slim": {
@@ -18,5 +21,5 @@ export default Cell.extend({
         return "🚧";
       }
     }
-  }),
-});
+  }
+}

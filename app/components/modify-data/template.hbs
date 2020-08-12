@@ -1,21 +1,21 @@
 <h1>Modify</h1>
 <h2>Pets</h2>
-{{#each pets as |pet|}}
+{{#each this.pets as |pet|}}
     <div class="flex">
         {{pet.name}} {{pet.owner.name}}
         <PowerSelect
-            @options={{bodyShapes}}
-            @onChange={{action "selection" pet}}
+            @options={{this.bodyShapes}}
+            @onChange={{fn this.selection pet}}
             @selected={{pet.shape}}
             as |shape|>
             {{shape.name}}
         </PowerSelect>
-        <button type="button" {{on 'click'  (action 'removePet' pet)}}>Remove Pet</button>
+        <button type="button" {{on 'click' (fn this.removePet pet)}}>Remove Pet</button>
     </div>
 {{/each}}
-<button type="button" {{on 'click' (action 'addPet')}}>Add Pet</button>
+<button type="button" {{on 'click' (fn this.addPet)}}>Add Pet</button>
 <h2>People</h2>
-{{#each people as |person|}}
+{{#each this.people as |person|}}
     <div>
         {{person.name}} <br/>
         <Input @value={{person.name}} />

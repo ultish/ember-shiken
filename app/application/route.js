@@ -1,14 +1,16 @@
+import classic from 'ember-classic-decorator';
 import Route from "@ember/routing/route";
 
-export default Route.extend({
+@classic
+export default class ApplicationRoute extends Route {
   setupController(controller) {
-    this._super(...arguments);
+    super.setupController(...arguments);
     controller.onRouteActivate();
-  },
+  }
 
   model() {
     return this.get("store").findRecord("person", "1", {
       include: "pets,pets.shape",
     });
-  },
-});
+  }
+}

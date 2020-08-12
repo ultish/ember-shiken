@@ -1,36 +1,39 @@
-<h1>{{changesetTree.changeset.name}}(changeset) vs {{changesetTree.model.name}}(model)
-    vs {{changesetTree.changeset._content.name}}(changeset _content)</h1>
-<h2>{{changesetTree.changeset.name}}'s Pets</h2>
+<h1>{{this.changesetTree.changeset.name}}(changeset) vs {{this.changesetTree.model.name}}(model)
+    vs {{this.changesetTree.changeset._content.name}}(changeset _content)</h1>
+<h2>{{this.changesetTree.changeset.name}}'s Pets</h2>
+
+<div {{did-insert this.didInsert}}>
+</div>
 {{!--{{tableData}}--}}
-{{#if table}}
-    <LightTable @table={{table}} @height='auto' as |t|>
+{{#if this.table}}
+    <LightTable @table={{this.table}} @height='auto' as |t|>
         <t.head/>
         <t.body
             @canSelect={{false}}
-            @onScrolledToBottom={{action "onScrolledToBottom"}}
+            @onScrolledToBottom={{this.onScrolledToBottom}}
             as |body|>
-            {{#if isLoading}}
+            {{#if this.isLoading}}
                 <body.loader>
-                    {{table-loader}}
+                    <TableLoader/>
                 </body.loader>
             {{/if}}
         </t.body>
-        <t.foot fixed=false as |columns|>
+        <t.foot fixed={{false}} as |columns|>
             <tr>
                 <td class="align-center" colspan={{columns.length}}>
                     <ul class="pagination pagination-sm">
-                        <li class={{if (eq currentPage 1) 'disabled'}}>
-                            <a {{action 'setPage' (dec currentPage)}} href="#" aria-label="Previous">
+                        <li class={{if (eq this.currentPage 1) 'disabled'}}>
+                            <a {{on 'click' (fn this.setPage (dec this.currentPage))}} href="#" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        {{#each (range 1 totalPages true) as |p|}}
-                            <li class={{if (eq p currentPage) 'active'}}>
-                                <a {{action 'setPage' p}} href="#">{{p}}</a>
+                        {{#each (range 1 this.totalPages true) as |p|}}
+                            <li class={{if (eq p this.currentPage) 'active'}}>
+                                <a {{on 'click' (fn this.setPage p)}} href="#">{{p}}</a>
                             </li>
                         {{/each}}
-                        <li class={{if (eq currentPage totalPages) 'disabled'}}>
-                            <a {{action 'setPage' (inc currentPage)}} href="#" aria-label="Next">
+                        <li class={{if (eq this.currentPage this.totalPages) 'disabled'}}>
+                            <a {{on 'click' (fn this.setPage (inc this.currentPage))}} href="#" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -40,5 +43,5 @@
         </t.foot>
     </LightTable>
 {{/if}}
-<button onClick={{action 'refresh'}}>Refresh</button>
+<button onClick={{fn this.refresh}} type="button">Refresh</button>
 {{yield}}
