@@ -66,6 +66,10 @@ export default class PersonDisplayOctaneComponent extends Component {
    */
   @computed("currentPage", "args.changesetTree.pets.@each.id")
   get tableData() {
+    this.data.clear();
+    if (!this.args.changesetTree) {
+      return this.data;
+    }
     const pets = this.args.changesetTree.pets;
     const currentPage = this.currentPage;
     const itemsPerPage = this.itemsPerPage;
@@ -84,7 +88,7 @@ export default class PersonDisplayOctaneComponent extends Component {
     // attached *only* to that Array instance. So if this
     // getter returns a different Array instance, say
     // bye bye to that array observer
-    this.data.clear();
+
     if (pets && pets.length) {
       const subset = pets.toArray().slice(startIndex, endIndex);
       this.data.pushObjects(subset);
@@ -96,6 +100,9 @@ export default class PersonDisplayOctaneComponent extends Component {
   // so add computed here
   @computed("args.changesetTree.pets.@each.id")
   get totalPages() {
+    if (!this.args.changesetTree) {
+      return 0;
+    }
     const pets = this.args.changesetTree.pets;
     const itemsPerPage = this.itemsPerPage;
     const result = Math.ceil(pets.length / itemsPerPage);
