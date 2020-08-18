@@ -5,4 +5,5 @@ export default DS.Model.extend({
   age: DS.attr("number"),
   shape: DS.belongsTo("bodyshape"),
   owner: DS.belongsTo("person"),
+  toys: DS.hasMany("toy", { changesetRequired: true }),
 });

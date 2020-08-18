@@ -25,7 +25,7 @@
     "babel-eslint": "^8.2.6",
     "broccoli-asset-rev": "^3.0.0",
     "ember-auto-import": "^1.5.3",
-    "ember-changeset": "^1.4.1",
+    "ember-changeset": "^3.8.1",
     "ember-classic-decorator": "^1.0.8",
     "ember-cli": "~3.16.2",
     "ember-cli-app-version": "^3.2.0",

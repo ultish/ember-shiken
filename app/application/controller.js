@@ -57,7 +57,6 @@ export default class ApplicationController extends Controller {
 
   updatePetsChangeset(start, removeCount, objectsToAdd) {
     const changesetTree = this.get("changesetTree");
-    const changesetTreeOctane = this.get("changesetTreeOctane");
 
     const newPetChangesetTrees = objectsToAdd.map((pet) =>
       ChangesetTree.create({
@@ -65,15 +64,6 @@ export default class ApplicationController extends Controller {
       })
     );
 
-    const newPetChangesetTreeOctanes = objectsToAdd.map(
-      (pet) => new ChangesetTreeOctane(pet)
-    );
-
     changesetTree.get("pets").replace(start, removeCount, newPetChangesetTrees);
-    changesetTreeOctane.pets.replace(
-      start,
-      removeCount,
-      newPetChangesetTreeOctanes
-    );
   }
 }

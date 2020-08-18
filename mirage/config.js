@@ -8,4 +8,10 @@ export default function () {
   this.patch("/pets/:id");
   this.post("/pets");
   this.delete("/pets/:id");
+
+  this.get("/toys/:id");
+  this.get("/toys");
+  this.post("/toys");
+  this.patch("/toys/:id");
+  this.delete("/toys/:id");
 }

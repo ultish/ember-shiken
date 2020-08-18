@@ -131,6 +131,11 @@ export default class PersonDisplayOctaneComponent extends Component {
         valuePath: "model.shape.name",
         cellType: "custom-cell",
       },
+      {
+        label: "Toys",
+        valuePath: "changeset.toys",
+        cellType: "array-cell",
+      },
     ];
   }
 }
