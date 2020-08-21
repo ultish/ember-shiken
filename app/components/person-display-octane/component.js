@@ -71,6 +71,7 @@ export default class PersonDisplayOctaneComponent extends Component {
       return this.data;
     }
     const pets = this.args.changesetTree.pets;
+    debugger;
     const currentPage = this.currentPage;
     const itemsPerPage = this.itemsPerPage;
 
@@ -133,8 +134,16 @@ export default class PersonDisplayOctaneComponent extends Component {
       },
       {
         label: "Toys",
-        valuePath: "changeset.toys",
+        valuePath: "toys",
         cellType: "array-cell",
+      },
+      {
+        label: "Pristine",
+        valuePath: "testPristine2",
+      },
+      {
+        label: "Test",
+        valuePath: "testPristine",
       },
     ];
   }

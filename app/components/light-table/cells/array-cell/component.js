@@ -6,7 +6,11 @@ import Cell from "ember-light-table/components/cells/base";
 export default class CustomCell extends Cell {
   @computed("value.[]")
   get list() {
-    const value = this.value;
-    return value.mapBy("name").join(", ");
+    const csts = this.value;
+    if (csts) {
+      return csts.mapBy("changeset.name").join(", ");
+    } else {
+      return "";
+    }
   }
 }

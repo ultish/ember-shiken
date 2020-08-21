@@ -1,7 +1,9 @@
 import Changeset from "ember-changeset";
 import { tracked } from "@glimmer/tracking";
-import { set } from "@ember/object";
+import { set, defineProperty, get, computed } from "@ember/object";
 import { all } from "rsvp";
+import { A } from "@ember/array";
+
 // Note: we can still add computed and observers to native classes
 // computed can be done via annotations, observers via these functions
 // import { addObserver, removeObserver } from "@ember/object/observers";
@@ -12,6 +14,12 @@ export default class ChangesetTreeOctane {
 
   @tracked
   model;
+
+  @tracked
+  childChangesetTrees = A();
+
+  @tracked
+  relationshipObservers = A();
 
   /**
    * If we add this tracked property here,
@@ -26,16 +34,76 @@ export default class ChangesetTreeOctane {
   constructor(model) {
     this.model = model;
     this.changeset = new Changeset(this.model);
+    return this.initialise();
+  }
 
-    this.buildRelationshipChangesetTrees(this.model);
+  // Note: when this is computed, it won't work...
+  // @computed("changeset.changes.[]")
+  get testPristine() {
+    return this.changeset.changes.length === 0;
+  }
 
-    this.relationshipObservers = [];
+  get testPristine2() {
+    if (!this.changeset.isPristine) {
+      return false;
+    } else {
+      let result = true;
+      // check child changesets
+      for (let childKey of this.relationshipObservers) {
+        const childCSTs = get(this, childKey);
+
+        let childResult = true;
+        for (let childCST of childCSTs) {
+          const childCSTPristine = childCST.testPristine2;
+          if (!childCSTPristine) {
+            childResult = false;
+            break;
+          }
+        }
+        if (!childResult) {
+          result = false;
+          break;
+        }
+      }
+      console.log("result", result, this);
+      return result;
+    }
+  }
+
+  // This does not work, the only diff to testPristine2 seems to be the reduce functions?
+  get testPristine3() {
+    if (!this.changeset.isPristine) {
+      return false;
+    } else {
+      // check the children
+      const result =
+        this.relationshipObservers.reduce((result, childKey) => {
+          if (result) {
+            //this[childKey]
+            result = get(this, childKey).reduce((childResult, childCST) => {
+              if (childResult) {
+                // check child CST
+                childResult = childCST.testPristine3;
+              }
+              return childResult;
+            }, true);
+          } else {
+            return result;
+          }
+        }, true) || true;
+
+      return result;
+    }
+  }
+
+  async initialise() {
+    await this.buildRelationshipChangesetTrees(this.model);
 
     // watch for relationship changes for those that require changesets
     // Note this may change when changesets track child models automatically...
     // this is still old way of doing it
     this.model.eachRelationship((key, meta) => {
-      console.log(key, meta);
+      // console.log(key, meta);
       if (meta.options.changesetRequired) {
         this.relationshipObservers.push(key);
         this.model[key].addArrayObserver(this, {
@@ -44,6 +112,8 @@ export default class ChangesetTreeOctane {
         });
       }
     });
+
+    return this;
   }
 
   async buildRelationshipChangesetTrees(model) {
@@ -58,17 +128,18 @@ export default class ChangesetTreeOctane {
 
     await all(promises);
 
-    keys.forEach((key) => {
+    for (let key of keys) {
       const childChangesetTrees = [];
-      const relationshipModels = model[key];
-      relationshipModels.forEach((child) => {
-        const childChangsetTreeOctane = new ChangesetTreeOctane(child);
+      const relationshipModels = model[key].toArray();
+      for (let child of relationshipModels) {
+        const childChangsetTreeOctane = await new ChangesetTreeOctane(child);
         childChangesetTrees.push(childChangsetTreeOctane);
-      });
+      }
       this[key] = childChangesetTrees;
-    });
+      this.childChangesetTrees.pushObjects(childChangesetTrees);
+    }
 
-    console.log("cst", this);
+    // console.log("cst", this);
   }
 
   // Note: This function must be manually called, otherwise we'll have a memleak
@@ -103,6 +174,14 @@ export default class ChangesetTreeOctane {
       (pet) => new ChangesetTreeOctane(pet)
     );
     changesetsForRel.replace(start, removeCount, newPetChangesetTreeOctanes);
+
+    // TODO does this work? specifically for removes?
+    this.childChangesetTrees.replace(
+      start,
+      removeCount,
+      newPetChangesetTreeOctanes
+    );
+
     set(this, key, changesetsForRel);
   }
 }

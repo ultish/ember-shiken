@@ -119,7 +119,7 @@ export default class PersonDisplay extends Component {
       },
       {
         label: "Toys",
-        valuePath: "changeset.toys",
+        valuePath: "toys",
         cellType: "array-cell",
       },
     ];
