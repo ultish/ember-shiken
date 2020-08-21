@@ -80,3 +80,11 @@ tfoot .pagination li > a:hover {
   flex-direction: row;
   align-items: center;
 }
+
+.flex-align-items-start {
+  align-items: flex-start;
+}
+
+.flex-50 {
+  flex-grow: 50;
+}

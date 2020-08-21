@@ -13,7 +13,6 @@ export default class ApplicationRoute extends Route {
   async afterModel(model) {
     const cstOctane = await this.buildChangesetTreeOctane(model);
     this.set("changesetTreeOctane", cstOctane);
-    debugger;
   }
 
   async buildChangesetTreeOctane(model) {

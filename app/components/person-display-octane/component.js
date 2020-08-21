@@ -71,7 +71,6 @@ export default class PersonDisplayOctaneComponent extends Component {
       return this.data;
     }
     const pets = this.args.changesetTree.pets;
-    debugger;
     const currentPage = this.currentPage;
     const itemsPerPage = this.itemsPerPage;
 

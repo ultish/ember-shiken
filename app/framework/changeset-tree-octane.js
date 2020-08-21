@@ -44,32 +44,34 @@ export default class ChangesetTreeOctane {
   }
 
   get testPristine2() {
-    if (!this.changeset.isPristine) {
-      return false;
-    } else {
-      let result = true;
-      // check child changesets
-      for (let childKey of this.relationshipObservers) {
-        const childCSTs = get(this, childKey);
+    return this.changeset.isPristine;
 
-        let childResult = true;
-        for (let childCST of childCSTs) {
-          const childCSTPristine = childCST.testPristine2;
-          if (!childCSTPristine) {
-            childResult = false;
-            break;
-          }
-        }
-        if (!childResult) {
-          result = false;
-          break;
-        }
-      }
-      console.log("result", result, this);
-      return result;
-    }
+    // if (!this.changeset.isPristine) {
+    //   return false;
+    // } else {
+    //   let result = true;
+    //   // check child changesets
+    //   for (let childKey of this.relationshipObservers) {
+    //     const childCSTs = get(this, childKey);
+    //
+    //     let childResult = true;
+    //     for (let childCST of childCSTs) {
+    //       const childCSTPristine = childCST.testPristine2;
+    //       if (!childCSTPristine) {
+    //         childResult = false;
+    //         break;
+    //       }
+    //     }
+    //     if (!childResult) {
+    //       result = false;
+    //       break;
+    //     }
+    //   }
+    //   console.log("result", result, this);
+    //   return result;
+    // }
   }
-
+  /*
   // This does not work, the only diff to testPristine2 seems to be the reduce functions?
   get testPristine3() {
     if (!this.changeset.isPristine) {
@@ -95,6 +97,7 @@ export default class ChangesetTreeOctane {
       return result;
     }
   }
+  */
 
   async initialise() {
     await this.buildRelationshipChangesetTrees(this.model);
