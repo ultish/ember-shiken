@@ -22,11 +22,6 @@ export default class ModifyDataCstOctane extends Component {
   }
 
   @action
-  mutInput(e) {
-    this.changesetTree.changeset.name = e.target.value;
-  }
-
-  @action
   revert() {
     this.changesetTree.changeset.rollback();
   }

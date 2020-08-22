@@ -44,32 +44,30 @@ export default class ChangesetTreeOctane {
   }
 
   get testPristine2() {
-    return this.changeset.isPristine;
+    if (!this.changeset.isPristine) {
+      return false;
+    } else {
+      let result = true;
+      // check child changesets
+      for (let childKey of this.relationshipObservers) {
+        const childCSTs = get(this, childKey);
 
-    // if (!this.changeset.isPristine) {
-    //   return false;
-    // } else {
-    //   let result = true;
-    //   // check child changesets
-    //   for (let childKey of this.relationshipObservers) {
-    //     const childCSTs = get(this, childKey);
-    //
-    //     let childResult = true;
-    //     for (let childCST of childCSTs) {
-    //       const childCSTPristine = childCST.testPristine2;
-    //       if (!childCSTPristine) {
-    //         childResult = false;
-    //         break;
-    //       }
-    //     }
-    //     if (!childResult) {
-    //       result = false;
-    //       break;
-    //     }
-    //   }
-    //   console.log("result", result, this);
-    //   return result;
-    // }
+        let childResult = true;
+        for (let childCST of childCSTs) {
+          const childCSTPristine = childCST.testPristine2;
+          if (!childCSTPristine) {
+            childResult = false;
+            break;
+          }
+        }
+        if (!childResult) {
+          result = false;
+          break;
+        }
+      }
+      console.log("result", result, this);
+      return result;
+    }
   }
   /*
   // This does not work, the only diff to testPristine2 seems to be the reduce functions?
@@ -142,7 +140,7 @@ export default class ChangesetTreeOctane {
       this.childChangesetTrees.pushObjects(childChangesetTrees);
     }
 
-    // console.log("cst", this);
+    console.log("cst", this);
   }
 
   // Note: This function must be manually called, otherwise we'll have a memleak
