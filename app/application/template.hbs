@@ -1,3 +1,10 @@
-{{person-display changesetTree=changesetTree}}
-{{modify-data model=model}}
+<PersonDisplay @changesetTree={{this.changesetTree}} />
+<hr >
+<PersonDisplayOctane @changesetTree={{this.changesetTreeOctane}} />
+<hr>
+<div class="flex flex-align-items-start">
+    <ModifyDataCstOctane @changesetTree={{this.changesetTreeOctane}} class="flex-50"/>
+    <ModifyData @model={{this.model}} class="flex-50"/>
+</div>
 {{outlet}}
+

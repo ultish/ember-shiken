@@ -74,3 +74,17 @@ tfoot .pagination li > a:hover {
   background: #d4442e;
   border-color: #c13c27;
 }
+
+.flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex-align-items-start {
+  align-items: flex-start;
+}
+
+.flex-50 {
+  flex-grow: 50;
+}

@@ -1,0 +1,11 @@
+<h1>Modify Changeset Octane</h1>
+<button onClick={{fn this.save}} type="button" disabled={{@changesetTree.testPristine2}}>
+    Save
+</button>
+<button onClick={{fn this.revert}} type="button">
+    Revert
+</button>
+<h2>People</h2>
+Name: <Input @value={{@changesetTree.changeset.name}} />
+
+<h2>Pets</h2>
