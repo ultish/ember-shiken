@@ -19,7 +19,6 @@ export default class ModifyDataCstOctane extends Component {
   @action
   save() {
     this.changesetTree;
-    debugger;
   }
 
   @action
